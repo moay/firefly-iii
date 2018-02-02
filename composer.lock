@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "b65015e818e8643480e794b418268e97",
+    "content-hash": "0e2327e3b0618358d0f79cd56ed56e72",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -1239,6 +1239,41 @@
                 "psr-3"
             ],
             "time": "2017-06-19T01:22:40+00:00"
+        },
+        {
+            "name": "mschindler83/fints-hbci-php",
+            "version": "1.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mschindler83/fints-hbci-php.git",
+                "reference": "e58cb825c178d4c39a8974a9dd93abbc8094551f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mschindler83/fints-hbci-php/zipball/e58cb825c178d4c39a8974a9dd93abbc8094551f",
+                "reference": "e58cb825c178d4c39a8974a9dd93abbc8094551f",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2",
+                "psr/log": "~1.0"
+            },
+            "suggest": {
+                "monolog/monolog": "Allow sending log messages to a variety of different handlers"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Fhp": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "PHP Library for the protocols fints and hbci",
+            "homepage": "http://fints-hbci-php.markus-schindler.de",
+            "time": "2017-02-15T13:48:21+00:00"
         },
         {
             "name": "mtdowling/cron-expression",

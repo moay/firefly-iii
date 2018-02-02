@@ -59,6 +59,16 @@
                                 </a>
                             </div>
                         {% endif %}
+
+                        {# import via FinTS/HBCI #}
+                        {% if routines.fints == true %}
+                            <div class="col-lg-1 text-center">
+                                <a href="{{ route('import.prerequisites', ['fints-hbci']) }}">
+                                    <img src="images/logos/fints-hbci.png" alt="{{ 'import_using_fints_hbci'|_ }}"/><br/>
+                                    {{ 'import_using_fints_hbci'|_ }}
+                                </a>
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>

@@ -23,29 +23,32 @@ declare(strict_types=1);
 
 return [
     'enabled'       => [
-        'file'    => true,
-        'bunq'    => false,
-        'spectre' => true,
-        'plaid'   => false,
+        'file'       => true,
+        'bunq'       => false,
+        'spectre'    => true,
+        'plaid'      => false,
+        'fints' => true
     ],
     'prerequisites' => [
-        'file'    => 'FireflyIII\Import\Prerequisites\FilePrerequisites',
-        'bunq'    => 'FireflyIII\Import\Prerequisites\BunqPrerequisites',
-        'spectre' => 'FireflyIII\Import\Prerequisites\SpectrePrerequisites',
-        'plaid'   => 'FireflyIII\Import\Prerequisites\PlaidPrerequisites',
-
+        'file'       => 'FireflyIII\Import\Prerequisites\FilePrerequisites',
+        'bunq'       => 'FireflyIII\Import\Prerequisites\BunqPrerequisites',
+        'spectre'    => 'FireflyIII\Import\Prerequisites\SpectrePrerequisites',
+        'plaid'      => 'FireflyIII\Import\Prerequisites\PlaidPrerequisites',
+        'fints' => 'FireflyIII\Import\Prerequisites\FintsHbciPrerequisites'
     ],
     'configuration' => [
-        'file'    => 'FireflyIII\Import\Configuration\FileConfigurator',
-        'bunq'    => 'FireflyIII\Import\Configuration\BunqConfigurator',
-        'spectre' => 'FireflyIII\Import\Configuration\SpectreConfigurator',
-        'plaid'   => 'FireflyIII\Import\Configuration\PlaidConfigurator',
+        'file'       => 'FireflyIII\Import\Configuration\FileConfigurator',
+        'bunq'       => 'FireflyIII\Import\Configuration\BunqConfigurator',
+        'spectre'    => 'FireflyIII\Import\Configuration\SpectreConfigurator',
+        'plaid'      => 'FireflyIII\Import\Configuration\PlaidConfigurator',
+        'fints' => 'FireflyIII\Import\Configuration\FintsHbciConfigurator'
     ],
     'routine'       => [
-        'file'    => 'FireflyIII\Import\Routine\FileRoutine',
-        'bunq'    => 'FireflyIII\Import\Routine\BunqRoutine',
-        'spectre' => 'FireflyIII\Import\Routine\SpectreRoutine',
-        'plaid'   => 'FireflyIII\Import\Routine\PlaidRoutine',
+        'file'       => 'FireflyIII\Import\Routine\FileRoutine',
+        'bunq'       => 'FireflyIII\Import\Routine\BunqRoutine',
+        'spectre'    => 'FireflyIII\Import\Routine\SpectreRoutine',
+        'plaid'      => 'FireflyIII\Import\Routine\PlaidRoutine',
+        'fints' => 'FireflyIII\Import\Routine\FintsHbciRoutine'
     ],
 
     'options'        => [
@@ -72,6 +75,10 @@ return [
         ],
         'plaid'   => [
             'has-config-file' => false,
+            'auto-start'      => true,
+        ],
+        'fints'   => [
+            'has-config-file' => true,
             'auto-start'      => true,
         ],
     ],
