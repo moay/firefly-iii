@@ -95,7 +95,7 @@ class FintsHbciConfigurator implements ConfiguratorInterface
         Log::debug(sprintf('in getNextView(), for stage "%s".', $stage));
         switch ($stage) {
             case 'have-logins':
-                return 'import.fints-hbci.logins';
+                return 'import.fints.logins';
             default:
                 return '';
 
@@ -128,6 +128,7 @@ class FintsHbciConfigurator implements ConfiguratorInterface
         // set default config:
         $defaultConfig = [
             'stage'           => 'initial',
+            'bank'            => [],
             'accounts'        => [],
             'accounts-mapped' => '',
             'auto-start'      => true,

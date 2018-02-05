@@ -1,0 +1,50 @@
+{% extends "./layout/default" %}
+
+{% block breadcrumbs %}
+    {{ Breadcrumbs.render }}
+{% endblock %}
+{% block content %}
+    <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">{{ trans('import.fints_prerequisites_title') }}</h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-lg-8 col-lg-push-2">
+                                <p>
+                                    {{ trans('import.fints_prerequisites_text')|raw }}
+                                </p>
+                            </div>
+                        </div>
+
+                        <hr />
+
+                        <div class="row">
+                            <div class="col-lg-8 col-lg-push-2">
+                                {% if banks|length == 0 %}
+                                <p>
+                                    {{ trans('import.fints_no_banks_added_text')|raw }}
+                                </p>
+                                {% else %}
+                                    {% for bank in banks %}
+                                        <form class="form-horizontal" action="{{ route('import.prerequisites.post',['fints']) }}" method="post">
+                                            <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
+                                        </form>
+                                    {% endfor %}
+                                {% endif %}
+
+                                <a href="#" id="fints_addBankAccess" class="btn btn-block btn-inverted"><i class="fa fa-plus-circle"></i> {{ trans('import.fints_add_bank_access_text')|raw }}</a>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+{% endblock %}
+{% block styles %}
+{% endblock %}

@@ -22,9 +22,12 @@ declare(strict_types=1);
 
 namespace FireflyIII\Import\Prerequisites;
 
+use FireflyIII\Models\Preference;
 use FireflyIII\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\MessageBag;
+use Log;
+use Preferences;
 
 /**
  * Class FintsHbciPrerequisites
@@ -42,7 +45,7 @@ class FintsHbciPrerequisites implements PrerequisitesInterface
      */
     public function getView(): string
     {
-        return 'import.fints-hbci.prerequisites';
+        return 'import.fints.prerequisites';
     }
 
     /**
@@ -52,10 +55,12 @@ class FintsHbciPrerequisites implements PrerequisitesInterface
      */
     public function getViewParameters(): array
     {
-        $subTitle     = strval(trans('import.fints-hbci_title'));
+        $subTitle     = strval(trans('import.fints_title'));
         $subTitleIcon = 'fa-archive';
+        $hideWarning = !Preferences::getForUser($this->user, 'confirmed-warnings', false);
+        $storedBanks = Preferences::getForUser($this->user, 'banks', []);
 
-        return compact('subTitle', 'subTitleIcon');
+        return compact('subTitle', 'subTitleIcon', 'hideWarning', 'storedBanks');
     }
 
     /**
@@ -70,6 +75,7 @@ class FintsHbciPrerequisites implements PrerequisitesInterface
         }
         $values = [
             Preferences::getForUser($this->user, 'confirmed-warnings', false),
+            Preferences::getForUser($this->user, 'selected-bank', false),
         ];
         /** @var Preference $value */
         foreach ($values as $value) {
