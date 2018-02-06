@@ -24,6 +24,7 @@ namespace FireflyIII\Import\Configuration;
 
 use FireflyIII\Models\ImportJob;
 use FireflyIII\Repositories\ImportJob\ImportJobRepositoryInterface;
+use FireflyIII\Services\FinTS\BankSettingsDatabase;
 
 /**
  * Class FintsHbciConfigurator
@@ -39,6 +40,10 @@ class FintsHbciConfigurator implements ConfiguratorInterface
 
     /** @var string */
     private $warning = '';
+
+    /**  */
+    public function __construct()
+    {}
 
     /**
      * @param array $data

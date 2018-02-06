@@ -58,9 +58,8 @@ class FintsHbciPrerequisites implements PrerequisitesInterface
         $subTitle     = strval(trans('import.fints_title'));
         $subTitleIcon = 'fa-archive';
         $hideWarning = !Preferences::getForUser($this->user, 'confirmed-warnings', false);
-        $storedBanks = Preferences::getForUser($this->user, 'banks', []);
 
-        return compact('subTitle', 'subTitleIcon', 'hideWarning', 'storedBanks');
+        return compact('subTitle', 'subTitleIcon', 'hideWarning');
     }
 
     /**
@@ -74,8 +73,7 @@ class FintsHbciPrerequisites implements PrerequisitesInterface
             throw new FireflyException('FinTS/HBCI is not available for demo users.');
         }
         $values = [
-            Preferences::getForUser($this->user, 'confirmed-warnings', false),
-            Preferences::getForUser($this->user, 'selected-bank', false),
+            Preferences::getForUser($this->user, 'confirmed-warnings', false)
         ];
         /** @var Preference $value */
         foreach ($values as $value) {
@@ -103,7 +101,7 @@ class FintsHbciPrerequisites implements PrerequisitesInterface
     }
 
     /**
-     * This method responds to the user's submission of an API key. It tries to register this instance as a new Firefly III device.
+     * This method responds to the user's aknowledgement of the fints warning. It tries to register this instance as a new Firefly III device.
      * If this fails, the error is returned in a message bag and the user is notified (this is fairly friendly).
      *
      * @param Request $request
@@ -112,6 +110,10 @@ class FintsHbciPrerequisites implements PrerequisitesInterface
      */
     public function storePrerequisites(Request $request): MessageBag
     {
+        Log::debug('Storing warning confirmation..');
+        Preferences::setForUser($this->user, 'confirmed-warnings', $request->get('confirmed-warnings'));
+        Log::debug('Done!');
+
         return new MessageBag;
     }
 
