@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace FireflyIII\Import\Prerequisites;
 
+use FireflyIII\Exceptions\FireflyException;
 use FireflyIII\Models\Preference;
 use FireflyIII\User;
 use Illuminate\Http\Request;
@@ -66,6 +67,7 @@ class FintsHbciPrerequisites implements PrerequisitesInterface
      * Checks for warnings confirmation by user
      *
      * @return bool
+     * @throws FireflyException
      */
     public function hasPrerequisites(): bool
     {

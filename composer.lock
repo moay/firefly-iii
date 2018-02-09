@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "cb98e9c787f042d74e6e4ca07e4b45eb",
+    "content-hash": "9c27a605102b0f33356f20da5a7537c0",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -1760,6 +1760,75 @@
                 "server"
             ],
             "time": "2017-12-23T23:33:42+00:00"
+        },
+        {
+            "name": "moay/fints-db",
+            "version": "v99.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/moay/fints-institute-db.git",
+                "reference": "60e3702005c2b3f49d3cef5c4157b53c355e3429"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/moay/fints-institute-db/zipball/60e3702005c2b3f49d3cef5c4157b53c355e3429",
+                "reference": "60e3702005c2b3f49d3cef5c4157b53c355e3429",
+                "shasum": ""
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "CC-0"
+            ],
+            "authors": [
+                {
+                    "name": "moay",
+                    "email": "mv@moay.de"
+                }
+            ],
+            "description": "Fints db as json file",
+            "time": "2018-02-09T08:30:41+00:00"
+        },
+        {
+            "name": "moay/php-fints-database",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/moay/php-fints-database.git",
+                "reference": "6cb6b66b33c295efed244d90dbbb7ead22757f73"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/moay/php-fints-database/zipball/6cb6b66b33c295efed244d90dbbb7ead22757f73",
+                "reference": "6cb6b66b33c295efed244d90dbbb7ead22757f73",
+                "shasum": ""
+            },
+            "require": {
+                "moay/fints-db": "^99",
+                "php": ">=7.0.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^6"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "moay\\FintsDatabase\\": "src",
+                    "moay\\FintsDatabase\\Test\\": "tests"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "moay",
+                    "email": "mv@moay.de"
+                }
+            ],
+            "description": "Provides a database of german banks with fints settings",
+            "time": "2018-02-09T08:36:58+00:00"
         },
         {
             "name": "monolog/monolog",
