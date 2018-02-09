@@ -24,8 +24,8 @@ namespace FireflyIII\Http;
 
 use FireflyIII\Http\Middleware\Authenticate;
 use FireflyIII\Http\Middleware\AuthenticateTwoFactor;
-use FireflyIII\Http\Middleware\Binder;
 use FireflyIII\Http\Middleware\EncryptCookies;
+use FireflyIII\Http\Middleware\Binder;
 use FireflyIII\Http\Middleware\IsAdmin;
 use FireflyIII\Http\Middleware\Range;
 use FireflyIII\Http\Middleware\RedirectIfAuthenticated;
@@ -44,7 +44,8 @@ use Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull;
 use Illuminate\Foundation\Http\Middleware\ValidatePostSize;
 use Illuminate\Routing\Middleware\ThrottleRequests;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
-use \Laravel\Passport\Http\Middleware\CreateFreshApiToken;
+use Laravel\Passport\Http\Middleware\CreateFreshApiToken;
+
 /**
  * @codeCoverageIgnore
  * Class Kernel

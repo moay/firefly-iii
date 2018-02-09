@@ -23,12 +23,16 @@ declare(strict_types=1);
 namespace FireflyIII\Api\V1\Controllers;
 
 use Auth;
+use Carbon\Carbon;
 use FireflyIII\Models\Bill;
+use FireflyIII\Repositories\Bill\BillRepositoryInterface;
 use FireflyIII\Transformers\BillTransformer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use League\Fractal\Manager;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 use League\Fractal\Resource\Collection as FractalCollection;
+use League\Fractal\Resource\Item;
 use League\Fractal\Serializer\JsonApiSerializer;
 use Preferences;
 use Response;
@@ -38,6 +42,28 @@ use Response;
  */
 class BillController extends Controller
 {
+    /** @var BillRepositoryInterface */
+    private $repository;
+
+    /**
+     * BillController constructor.
+     *
+     * @throws \FireflyIII\Exceptions\FireflyException
+     */
+    public function __construct()
+    {
+        parent::__construct();
+        $this->middleware(
+            function ($request, $next) {
+                /** @var BillRepositoryInterface repository */
+                $this->repository = app(BillRepositoryInterface::class);
+                $this->repository->setUser(auth()->user());
+
+                return $next($request);
+            }
+        );
+    }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -47,7 +73,8 @@ class BillController extends Controller
      */
     public function destroy(Bill $bill)
     {
-        //
+        $this->repository->destroy($bill);
+        return response()->json(null, 204);
     }
 
     /**
@@ -57,33 +84,57 @@ class BillController extends Controller
      */
     public function index(Request $request)
     {
-        $user      = Auth::guard('api')->user();
-        $pageSize  = intval(Preferences::getForUser($user, 'listPageSize', 50)->data);
-        $paginator = $user->bills()->paginate($pageSize);
-        $bills     = $paginator->getCollection();
+        $user     = Auth::guard('api')->user();
+        $pageSize = intval(Preferences::getForUser($user, 'listPageSize', 50)->data);
+        $start    = null;
+        $end      = null;
+        if (null !== $request->get('start')) {
+            $start = new Carbon($request->get('start'));
+        }
+        if (null !== $request->get('end')) {
+            $end = new Carbon($request->get('end'));
+        }
+        $paginator = $this->repository->getPaginator($pageSize);
+        /** @var Collection $bills */
+        $bills = $paginator->getCollection();
 
         $manager = new Manager();
         $baseUrl = $request->getSchemeAndHttpHost() . '/api/v1';
         $manager->setSerializer(new JsonApiSerializer($baseUrl));
 
-
-        $resource = new FractalCollection($bills, new BillTransformer(), 'bills');
+        $resource = new FractalCollection($bills, new BillTransformer($start, $end), 'bills');
         $resource->setPaginator(new IlluminatePaginatorAdapter($paginator));
-
 
         return Response::json($manager->createData($resource)->toArray());
     }
 
+
     /**
-     * Display the specified resource.
+     * @param Request $request
+     * @param Bill    $bill
      *
-     * @param  \FireflyIII\Models\Bill $bill
-     *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Bill $bill)
+    public function show(Request $request, Bill $bill)
     {
-        //
+        $start = null;
+        $end   = null;
+        if (null !== $request->get('start')) {
+            $start = new Carbon($request->get('start'));
+        }
+        if (null !== $request->get('end')) {
+            $end = new Carbon($request->get('end'));
+        }
+
+
+        $manager = new Manager();
+        $manager->parseIncludes(['attachments']);
+        $baseUrl = $request->getSchemeAndHttpHost() . '/api/v1';
+        $manager->setSerializer(new JsonApiSerializer($baseUrl));
+
+        $resource = new Item($bill, new BillTransformer($start, $end), 'bill');
+
+        return Response::json($manager->createData($resource)->toArray());
     }
 
     /**

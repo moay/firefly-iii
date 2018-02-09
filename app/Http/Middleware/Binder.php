@@ -1,7 +1,7 @@
 <?php
 /**
  * Binder.php
- * Copyright (c) 2017 thegrumpydictator@gmail.com
+ * Copyright (c) 2018 thegrumpydictator@gmail.com
  *
  * This file is part of Firefly III.
  *
@@ -24,13 +24,21 @@ namespace FireflyIII\Http\Middleware;
 
 use Closure;
 use FireflyIII\Support\Domain;
+use Illuminate\Contracts\Auth\Factory as Auth;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Route;
 
 /**
- * Class Binder.
+ * Class HttpBinder
  */
 class Binder
 {
+    /**
+     * The authentication factory instance.
+     *
+     * @var \Illuminate\Contracts\Auth\Factory
+     */
+    protected $auth;
     /**
      * @var array
      */
@@ -38,25 +46,38 @@ class Binder
 
     /**
      * Binder constructor.
+     *
+     * @param  \Illuminate\Contracts\Auth\Factory $auth
      */
-    public function __construct()
+    public function __construct(Auth $auth)
     {
         $this->binders = Domain::getBindables();
+        $this->auth    = $auth;
     }
 
     /**
      * Handle an incoming request.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \Closure                 $next
+     * @param  \Illuminate\Http\Request $request
+     * @param  \Closure                 $next
+     * @param  string[]                 ...$guards
      *
      * @return mixed
+     *
+     * @throws \Illuminate\Auth\AuthenticationException
      */
-    public function handle(Request $request, Closure $next)
+    public function handle($request, Closure $next, ...$guards)
     {
+        $middleware = $request->route()->middleware();
+        $guard = 'web';
+        if(in_array('auth:api', $middleware)) {
+            $guard = 'api';
+        }
+        $guard = auth()->guard($guard);
+
         foreach ($request->route()->parameters() as $key => $value) {
             if (isset($this->binders[$key])) {
-                $boundObject = $this->performBinding($key, $value, $request->route());
+                $boundObject = $this->performBinding($guard, $key, $value, $request->route());
                 $request->route()->setParameter($key, $boundObject);
             }
         }
@@ -71,10 +92,9 @@ class Binder
      *
      * @return mixed
      */
-    private function performBinding($key, $value, $route)
+    private function performBinding($guard, string $key, string $value, Route $route)
     {
         $class = $this->binders[$key];
-
-        return $class::routeBinder($value, $route);
+        return $class::routeBinder($guard, $value, $route);
     }
 }

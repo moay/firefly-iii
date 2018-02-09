@@ -32,6 +32,7 @@ use FireflyIII\Models\TransactionType;
 use FireflyIII\Support\CacheProperties;
 use FireflyIII\User;
 use Illuminate\Database\Query\JoinClause;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Log;
 use Navigation;
@@ -270,6 +271,16 @@ class BillRepository implements BillRepositoryInterface
     }
 
     /**
+     * @param int $size
+     *
+     * @return LengthAwarePaginator
+     */
+    public function getPaginator(int $size): LengthAwarePaginator
+    {
+        return $this->user->bills()->paginate($size);
+    }
+
+    /**
      * The "paid dates" list is a list of dates of transaction journals that are linked to this bill.
      *
      * @param Bill   $bill
@@ -392,9 +403,7 @@ class BillRepository implements BillRepositoryInterface
      * @param Carbon $date
      *
      * @return \Carbon\Carbon
-     *
-     * @throws \FireflyIII\Support\Facades\FireflyException
-     * @throws \FireflyIII\Support\Facades\FireflyException
+     * @throws \FireflyIII\Exceptions\FireflyException
      */
     public function nextDateMatch(Bill $bill, Carbon $date): Carbon
     {
@@ -432,10 +441,6 @@ class BillRepository implements BillRepositoryInterface
      * @param Carbon $date
      *
      * @return Carbon
-     *
-     * @throws \FireflyIII\Support\Facades\FireflyException
-     * @throws \FireflyIII\Support\Facades\FireflyException
-     * @throws \FireflyIII\Support\Facades\FireflyException
      */
     public function nextExpectedMatch(Bill $bill, Carbon $date): Carbon
     {

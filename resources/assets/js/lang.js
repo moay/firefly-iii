@@ -1,7 +1,6 @@
-<?php
-/**
- * BinderInterface.php
- * Copyright (c) 2017 thegrumpydictator@gmail.com
+/*
+ * lang.js
+ * Copyright (c) 2018 thegrumpydictator@gmail.com
  *
  * This file is part of Firefly III.
  *
@@ -18,22 +17,14 @@
  * You should have received a copy of the GNU General Public License
  * along with Firefly III. If not, see <http://www.gnu.org/licenses/>.
  */
-declare(strict_types=1);
 
-namespace FireflyIII\Support\Binder;
+// Inside my /resources/assets/js/lang.js
+import lang from 'lang.js';
+import messages from './messages';
 
-use Illuminate\Routing\Route;
+const Lang = new lang({messages});
 
-/**
- * Interface BinderInterface.
- */
-interface BinderInterface
-{
-    /**
-     * @param string $value
-     * @param Route  $route
-     *
-     * @return mixed
-     */
-    public static function routeBinder($guard, string $value, Route $route);
-}
+Lang.setLocale(window.language);
+Lang.setFallback('en_US');
+
+export default Lang;

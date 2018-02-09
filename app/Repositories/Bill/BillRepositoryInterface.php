@@ -26,6 +26,7 @@ use Carbon\Carbon;
 use FireflyIII\Models\Bill;
 use FireflyIII\Models\TransactionJournal;
 use FireflyIII\User;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 
 /**
@@ -33,6 +34,7 @@ use Illuminate\Support\Collection;
  */
 interface BillRepositoryInterface
 {
+
     /**
      * @param Bill $bill
      *
@@ -103,6 +105,13 @@ interface BillRepositoryInterface
      * @return string
      */
     public function getOverallAverage(Bill $bill): string;
+
+    /**
+     * @param int $size
+     *
+     * @return LengthAwarePaginator
+     */
+    public function getPaginator(int $size): LengthAwarePaginator;
 
     /**
      * @param Bill   $bill
